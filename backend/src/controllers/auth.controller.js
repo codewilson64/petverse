@@ -49,7 +49,7 @@ const signup = async (req, res) => {
     }
   }
   catch (error) {
-    res.status(400).json({error: error.message})
+    res.status(500).json({error: error.message})
     console.log('Error in signup controller', error.message)
   }
 }
@@ -80,7 +80,7 @@ const login = async (req, res) => {
     res.status(200).json(user)
   } 
   catch (error) {
-    res.status(400).json({error: error.message})
+    res.status(500).json({error: error.message})
     console.log('Error in login controller', error.message)
   }
 }
@@ -92,7 +92,7 @@ const logout = async (req, res) => {
     res.status(200).json({message: 'Logout successful'})  
   } 
   catch (error) {
-    res.status(400).json({error: error.message})
+    res.status(500).json({error: error.message})
     console.log('Error in logout controller', error.message)
   }
 }

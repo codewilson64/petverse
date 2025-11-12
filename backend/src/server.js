@@ -28,7 +28,9 @@ app.use('/api/notification', notificationRoutes)
 const startServer = async () => {
   try {
     await connectDB()
-    app.listen(ENV.PORT, () => console.log(`Server run on port ${ENV.PORT}`))
+    if(ENV.NODE_ENV !== "production") {
+      app.listen(ENV.PORT, () => console.log(`Server run on port ${ENV.PORT}`))
+    }
   } catch (error) {
     console.log("Failed to start server:", error.message)
     process.exit(1)
@@ -36,3 +38,6 @@ const startServer = async () => {
 }
 
 startServer()
+
+// export for Vercel
+export default app

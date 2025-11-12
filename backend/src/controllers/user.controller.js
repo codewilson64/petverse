@@ -15,7 +15,7 @@ export const getUserProfile = async (req, res) => {
     res.status(200).json(user)
   }
   catch(error) {
-    res.status(400).json({error: error.message})
+    res.status(500).json({error: error.message})
     console.log('Error in getUserProfile controller', error.message)
   }
 }
@@ -69,7 +69,7 @@ export const updateProfile = async (req, res) => {
     res.status(200).json(user)
   } 
   catch (error) {
-    res.status(400).json({error: error.message})
+    res.status(500).json({error: error.message})
     console.log('Error in updateUser controller', error.message)
   }
 }
