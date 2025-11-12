@@ -38,25 +38,25 @@ export const createComment = async (req, res) => {
     if (!post) return res.status(404).json({ error: "Post not found" });
 
     const comment = await Comment.create({
-        user: userId,
-        post: postId,
-        content,
+      user: userId,
+      post: postId,
+      content,
     });
 
     // link the comment to the post
     await Post.findByIdAndUpdate(postId, {
-        $push: { comments: comment._id },
+      $push: { comments: comment._id },
     });
 
     // create notification if not commenting on own post
     if (post.user.toString() !== userId.toString()) {
-        await Notification.create({
+      await Notification.create({
         from: userId,
         to: post.user,
         type: "comment",
         post: postId,
         comment: comment._id,
-        });
+      });
     }
 
     res.status(201).json(comment);
