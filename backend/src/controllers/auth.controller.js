@@ -5,26 +5,19 @@ import generateTokenAndSetCookie from '../utils/generateToken.js'
 
 // Signup
 const signup = async (req, res) => {
-  const { fullName, username, email, password } = req.body
+  const { username, password } = req.body
 
   try {
     // Validate fields
-    if(!fullName || !username || !email || !password) {
+    if(!username || !password) {
       return res.status(400).json({ error: 'All fields must be filled' })
     }
-    if(!validator.isEmail(email)) {
-      return res.status(400).json({ error: 'Invalid email' })
-    }
+
     if(!validator.isStrongPassword(password)) {
       return res.status(400).json({ error: 'Password is too weak' })
     }
 
     // Check user existance
-    const emailExists = await User.findOne({email})
-    if(emailExists) {
-      return res.status(400).json({error: 'Email already exist'})
-    }
-
     const usernameExists = await User.findOne({username})
     if(usernameExists) {
       return res.status(400).json({error: 'Username already exist'})
@@ -35,17 +28,19 @@ const signup = async (req, res) => {
     
     // Create user
     const user = new User({
-      fullName,
       username,
-      email,
       password: hash,
     })
    
     // Create JWT token 
     if(user) {
-      generateTokenAndSetCookie(user._id, res)
-      await user.save()
-      return res.status(201).json(user)
+      const token = generateTokenAndSetCookie(user._id, res);
+      await user.save();
+      return res.status(201).json({
+        _id: user._id,
+        username: user.username,
+        token, // ✅ send token explicitly for mobile client
+      });
     }
   }
   catch (error) {
