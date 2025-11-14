@@ -39,7 +39,7 @@ const signup = async (req, res) => {
       return res.status(201).json({
         _id: user._id,
         username: user.username,
-        token, // ✅ send token explicitly for mobile client
+        token, 
       });
     }
   }
@@ -71,8 +71,12 @@ const login = async (req, res) => {
       return res.status(400).json({error: 'Incorrect password'})
     }
 
-    generateTokenAndSetCookie(user._id, res)
-    res.status(200).json(user)
+    const token = generateToken(user._id)
+    return res.status(201).json({
+        _id: user._id,
+        username: user.username,
+        token, 
+      });
   } 
   catch (error) {
     res.status(500).json({error: error.message})
