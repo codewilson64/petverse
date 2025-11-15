@@ -14,8 +14,8 @@ const DashboardLayout = () => {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#181818',
-            borderColor: 'rgba(75, 85, 99, 0.5)',
+            // backgroundColor: '#fff',
+            // borderColor: 'rgba(75, 85, 99, 0.5)',
             height: 50 + insets.bottom,
             paddingTop: 7,
           }
