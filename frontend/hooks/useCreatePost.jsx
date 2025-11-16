@@ -8,9 +8,9 @@ export const useCreatePost = () => {
   const { token } = useAuth()
   const { addPost } = usePosts()
 
-  const createPost = async (content) => {
+  const createPost = async (formData) => {
     if(!token) throw new Error("Unauthorized — no token found")
-    if(!content?.trim()) return setError("Post cannot be empty")
+    // if(!content?.trim() && !imageUrl) return setError("Post cannot be empty")
 
     setError(null)
     setLoading(true)
@@ -19,10 +19,9 @@ export const useCreatePost = () => {
       const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/post`, {
         method: "POST",
         headers: { 
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({content})
+        body: formData
       })
 
       const data = await res.json()

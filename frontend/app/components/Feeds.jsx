@@ -1,6 +1,7 @@
-import { View, Text, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, FlatList, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { usePosts } from "../context/PostContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Feeds() {
   const { posts, loading } = usePosts()
@@ -26,7 +27,7 @@ export default function Feeds() {
       data={posts}
       keyExtractor={item => item._id}
       renderItem={({ item }) => (
-        <View className="mb-5">
+        <View className="mb-3">
           
           {/* USER HEADER */}
           <View className="p-4 flex-row items-center gap-3">
