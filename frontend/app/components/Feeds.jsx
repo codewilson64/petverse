@@ -1,10 +1,11 @@
-import { View, Text, Image, TouchableOpacity, ActivityIndicator, FlatList, ScrollView } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { usePosts } from "../context/PostContext";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useDeletePost } from "../hooks/useDeletePost";
 
 export default function Feeds() {
   const { posts, loading } = usePosts()
+  const { deletePost, loadingDeleteId } = useDeletePost()
 
   if (loading) {
     return (
@@ -30,7 +31,10 @@ export default function Feeds() {
         <View className="mb-3">
           
           {/* USER HEADER */}
-          <View className="p-4 flex-row items-center gap-3">
+          <View className="p-4 flex-row items-center justify-between">
+  
+          {/* LEFT SIDE */}
+          <View className="flex-row items-center gap-3">
             <Image
               source={{ uri: item.user?.avatar || "https://i.pravatar.cc/100" }}
               className="w-10 h-10 rounded-full"
@@ -41,6 +45,20 @@ export default function Feeds() {
               <Text className="text-gray-500 text-xs">Just now</Text>
             </View>
           </View>
+
+          {/* RIGHT SIDE TRASH ICON */}
+          <TouchableOpacity
+            disabled={loadingDeleteId === item._id} 
+            onPress={() => deletePost(item._id)}
+          >
+            {loadingDeleteId === item._id ? (
+              <ActivityIndicator color="#fff"/>
+            ): (
+              <Feather name="trash-2" size={22} />
+            )}
+          </TouchableOpacity>
+        </View>
+
 
           {/* CONTENT */}
           {item.content ? (
